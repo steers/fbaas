@@ -1,0 +1,189 @@
+consumes:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+definitions:
+  Fizzbuzz:
+    description: Output of FizzBuzz for one input (default view)
+    example:
+      in: 15
+      out: FizzBuzz
+    properties:
+      in:
+        example: 15
+        format: int64
+        type: integer
+      out:
+        example: FizzBuzz
+        type: string
+    title: 'Mediatype identifier: application/vnd.fizzbuzz+json; view=default'
+    type: object
+  FizzbuzzCollection:
+    description: FizzbuzzCollection is the media type for an array of Fizzbuzz (default
+      view)
+    example:
+    - in: 15
+      out: FizzBuzz
+    - in: 15
+      out: FizzBuzz
+    - in: 15
+      out: FizzBuzz
+    items:
+      $ref: '#/definitions/Fizzbuzz'
+    title: 'Mediatype identifier: application/vnd.fizzbuzz+json; type=collection'
+    type: array
+  error:
+    description: Error response media type (default view)
+    example:
+      code: invalid_value
+      detail: Value of ID must be an integer
+      id: 3F1FKVRR
+      meta:
+        timestamp: 1.458609e+09
+      status: "400"
+    properties:
+      code:
+        description: an application-specific error code, expressed as a string value.
+        example: invalid_value
+        type: string
+      detail:
+        description: a human-readable explanation specific to this occurrence of the
+          problem.
+        example: Value of ID must be an integer
+        type: string
+      id:
+        description: a unique identifier for this particular occurrence of the problem.
+        example: 3F1FKVRR
+        type: string
+      meta:
+        additionalProperties: true
+        description: a meta object containing non-standard meta-information about
+          the error.
+        example:
+          timestamp: 1.458609e+09
+        type: object
+      status:
+        description: the HTTP status code applicable to this problem, expressed as
+          a string value.
+        example: "400"
+        type: string
+    title: 'Mediatype identifier: application/vnd.goa.error'
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: alex@steers.rocks
+    name: Alex Steers
+    url: https://github.com/steers/rest-fizzbuzz
+  description: Practice writing APIs
+  license:
+    name: MIT
+    url: https://github.com/steers/rest-fizzbuzz/blob/master/LICENSE
+  title: FizzBuzz As A Service
+  version: "1.0"
+paths:
+  /js/{filepath}:
+    get:
+      operationId: js#/js/*filepath
+      parameters:
+      - description: Relative file path
+        in: path
+        name: filepath
+        required: true
+        type: string
+      responses:
+        "200":
+          description: File downloaded
+          schema:
+            type: file
+        "404":
+          description: File not found
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: Download public/js
+  /swagger.json:
+    get:
+      operationId: swagger#/swagger.json
+      responses:
+        "200":
+          description: File downloaded
+          schema:
+            type: file
+      schemes:
+      - http
+      summary: Download public/swagger/swagger.json
+  /ui:
+    get:
+      operationId: public#/ui
+      responses:
+        "200":
+          description: File downloaded
+          schema:
+            type: file
+      schemes:
+      - http
+      summary: Download public/html/index.html
+  /v1/between/{begin}/{end}:
+    get:
+      description: Retrieve FizzBuzz result for two inputs
+      operationId: fizzbuzz#multi
+      parameters:
+      - description: Start of integer series
+        in: path
+        name: begin
+        required: true
+        type: integer
+      - description: End of integer series
+        in: path
+        name: end
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/FizzbuzzCollection'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: multi fizzbuzz
+      tags:
+      - fizzbuzz
+  /v1/get/{input}:
+    get:
+      description: Retrieve FizzBuzz result for one input
+      operationId: fizzbuzz#single
+      parameters:
+      - description: FizzBuzz input
+        in: path
+        name: input
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Fizzbuzz'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error'
+      schemes:
+      - http
+      summary: single fizzbuzz
+      tags:
+      - fizzbuzz
+produces:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+schemes:
+- http
+swagger: "2.0"
