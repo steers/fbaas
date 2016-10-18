@@ -41,7 +41,12 @@ func (c *FizzbuzzController) Multi(ctx *app.MultiFizzbuzzContext) error {
 	if min > max {
 		min, max = ctx.End, ctx.Begin
 	}
+
 	size := max - min + 1
+	if size > 1000 {
+		return ctx.BadRequest(goa.ErrBadRequest(fmt.Sprintf("range size (%v) exceeded limit (1000)", size)))
+	}
+
 	idx := 0
 	res := make(app.FizzbuzzCollection, size)
 	for i := min; i <= max; i++ {
