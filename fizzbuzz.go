@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/goadesign/goa"
-	"github.com/steers/rest-fizzbuzz/app"
+	"github.com/steers/fbaas/app"
 	"fmt"
 )
 

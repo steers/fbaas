@@ -5,7 +5,7 @@ package main
 import (
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware"
-	"github.com/steers/rest-fizzbuzz/app"
+	"github.com/steers/fbaas/app"
 )
 
 func main() {

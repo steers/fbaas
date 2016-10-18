@@ -3,8 +3,8 @@
 //
 // Generated with goagen v1.0.0, command line:
 // $ goagen
-// --design=github.com/steers/rest-fizzbuzz/design
-// --out=$(GOPATH)/src/github.com/steers/rest-fizzbuzz
+// --design=github.com/steers/fbaas/design
+// --out=$(GOPATH)/src/github.com/steers/fbaas
 // --version=v1.0.0
 //
 // The content of this file is auto-generated, DO NOT MODIFY
@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/goatest"
-	"github.com/steers/rest-fizzbuzz/app"
+	"github.com/steers/fbaas/app"
 	"golang.org/x/net/context"
 	"io"
 	"log"
