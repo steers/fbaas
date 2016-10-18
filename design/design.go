@@ -16,12 +16,12 @@ var _ = API("fbaas", func() {
 	Contact(func() {
 		Name("Alex Steers")
 		Email("alex@steers.rocks")
-		URL("https://github.com/steers/rest-fizzbuzz")
+		URL("https://github.com/steers/fbaas")
 	})
 	
 	License(func() {
 		Name("MIT")
-		URL("https://github.com/steers/rest-fizzbuzz/blob/master/LICENSE")
+		URL("https://github.com/steers/fbaas/blob/master/LICENSE")
 	})
 })
 

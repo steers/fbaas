@@ -75,11 +75,11 @@ info:
   contact:
     email: alex@steers.rocks
     name: Alex Steers
-    url: https://github.com/steers/rest-fizzbuzz
+    url: https://github.com/steers/fbaas
   description: Practice writing APIs
   license:
     name: MIT
-    url: https://github.com/steers/rest-fizzbuzz/blob/master/LICENSE
+    url: https://github.com/steers/fbaas/blob/master/LICENSE
   title: FizzBuzz As A Service
   version: "1.0"
 paths:
