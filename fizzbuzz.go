@@ -3,11 +3,31 @@ package main
 import (
 	"github.com/goadesign/goa"
 	"github.com/steers/rest-fizzbuzz/app"
+	"fmt"
 )
 
 // FizzbuzzController implements the fizzbuzz resource.
 type FizzbuzzController struct {
 	*goa.Controller
+}
+
+// Here's where all the magic happens!
+func fizzbuzz(input int) (output string) {
+	var (
+		mod3 = input % 3 == 0
+		mod5 = input % 5 == 0
+	)
+	switch {
+	case mod3 && mod5:
+		output = "FizzBuzz"
+	case mod3:
+		output = "Fizz"
+	case mod5:
+		output = "Buzz"
+	default:
+		output = fmt.Sprintf("%v", input)
+	}
+	return 
 }
 
 // NewFizzbuzzController creates a fizzbuzz controller.
@@ -17,22 +37,25 @@ func NewFizzbuzzController(service *goa.Service) *FizzbuzzController {
 
 // Multi runs the multi action.
 func (c *FizzbuzzController) Multi(ctx *app.MultiFizzbuzzContext) error {
-	// FizzbuzzController_Multi: start_implement
+	min, max := ctx.Begin, ctx.End
+	if min > max {
+		min, max = ctx.End, ctx.Begin
+	}
+	size := max - min + 1
+	idx := 0
+	res := make(app.FizzbuzzCollection, size)
+	for i := min; i <= max; i++ {
+		input, output := i, fizzbuzz(i)
+		res[idx] = &app.Fizzbuzz{In: &input, Out: &output}
+		idx++
+	}
 
-	// Put your logic here
-
-	// FizzbuzzController_Multi: end_implement
-	res := app.FizzbuzzCollection{}
 	return ctx.OK(res)
 }
 
 // Single runs the single action.
 func (c *FizzbuzzController) Single(ctx *app.SingleFizzbuzzContext) error {
-	// FizzbuzzController_Single: start_implement
-
-	// Put your logic here
-
-	// FizzbuzzController_Single: end_implement
-	res := &app.Fizzbuzz{}
+	output := fizzbuzz(ctx.Input)
+	res := &app.Fizzbuzz{In: &ctx.Input, Out: &output}
 	return ctx.OK(res)
 }
